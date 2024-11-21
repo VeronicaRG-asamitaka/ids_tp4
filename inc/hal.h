@@ -18,20 +18,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
-
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef HAL_H
+#define HAL_H
 
 /**
- * @file main.h
- * @brief Definición de la función principal del programa.
- *
- * Este archivo contiene la declaración de la función principal del sistema. Se utiliza para
- * iniciar la ejecución del programa.
+ * @file hal.h
+ * @brief Proporciona funciones de bajo nivel (HAL) para controlar los pines GPIO.
  */
 
 /* === Headers files inclusions ================================================================ */
-
+#include <stdint.h>
+#include <stdbool.h>
 /* === Cabecera C++ ============================================================================ */
 
 #ifdef __cplusplus
@@ -47,11 +44,40 @@ extern "C" {
 /* === Public function declarations ============================================================ */
 
 /**
- * @brief Función principal del sistema, se ejecuta al iniciar el programa
+ * @brief Configura la dirección de un pin GPIO.
  *
- * @return int Valor de retorno, cero si esta todo bien, negativo si hay un error
+ * Esta función establece la dirección de un pin GPIO, especificando si debe ser configurado como
+ * entrada o salida.
+ *
+ * @param port El puerto del pin GPIO.
+ * @param bit El bit del pin del puerto.
+ * @param output Indica si el pin debe ser configurado como salida = true o como entrada = false.
  */
-int main(void);
+void hal_gpio_set_direction(uint8_t port, uint8_t bit, bool output);
+
+/**
+ * @brief Establece el valor de salida de un pin GPIO.
+ *
+ * Esta función establece el valor lógico de un pin GPIO configurado como salida. Puede poner el pin
+ * en estado alto (activo) o bajo (inactivo), dependiendo del valor del parámetro `active`.
+ *
+ * @param port El puerto del pin GPIO.
+ * @param bit El bit del pin del puerto.
+ * @param active Estado lógico a establecer en el pin: true = alto, false = bajo.
+ */
+void hal_gpio_set_output(uint8_t port, uint8_t bit, bool active);
+
+/**
+ * @brief Lee el valor de un pin GPIO configurado como entrada.
+ *
+ * Esta función obtiene el valor lógico de un pin GPIO que está configurado como entrada.
+ *
+ * @param port El puerto del pin GPIO.
+ * @param bit El bit del pin dentro del puerto.
+ *
+ * @return El estado lógico del pin GPIO :true = alto, false = bajo.
+ */
+bool hal_gpio_get_input(uint8_t port, uint8_t bit);
 
 /* === End of documentation ==================================================================== */
 
@@ -59,4 +85,4 @@ int main(void);
 }
 #endif
 
-#endif /* MAIN_H */
+#endif /* HAL_H */

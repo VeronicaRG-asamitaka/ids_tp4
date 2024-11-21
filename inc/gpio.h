@@ -18,19 +18,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
+#ifndef GPIO_H
+#define GPIO_H
 
-#ifndef MAIN_H
-#define MAIN_H
-
-/**
- * @file main.h
- * @brief Definición de la función principal del programa.
- *
- * Este archivo contiene la declaración de la función principal del sistema. Se utiliza para
- * iniciar la ejecución del programa.
- */
+/** @file gpio.h
+ ** @brief Proporciona funciones para controlar pines GPIO.
+ **/
 
 /* === Headers files inclusions ================================================================ */
+
+#include <stdint.h>
+#include <stdbool.h>
 
 /* === Cabecera C++ ============================================================================ */
 
@@ -42,16 +40,62 @@ extern "C" {
 
 /* === Public data type declarations =========================================================== */
 
+/**
+ * @brief Tipo de datos para la estructura gpio_s.
+ *
+ * Define un tipo de puntero a la estructura gpio_s.
+ */
+typedef struct gpio_s * gpio_t;
+
 /* === Public variable declarations ============================================================ */
 
 /* === Public function declarations ============================================================ */
 
 /**
- * @brief Función principal del sistema, se ejecuta al iniciar el programa
+ * @brief Constructor de un pin GPIO.
  *
- * @return int Valor de retorno, cero si esta todo bien, negativo si hay un error
+ * Esta función actúa como un "constructor",
+ * inicializando el puerto y el pin, y configurando el pin como entrada por defecto.
+ *
+ * @param port Puerto GPIO donde se encuentra el pin.
+ * @param bit Bit del pin dentro del puerto GPIO.
+ *
+ * @return Una nueva instancia de gpio_t que representa el pin GPIO.
  */
-int main(void);
+gpio_t gpioCreate(uint8_t port, uint8_t bit);
+
+/**
+ * @brief Establece el modo de salida de un pin GPIO.
+ *
+ * Esta función configura un pin GPIO como salida o no, dependiendo del valor del parámetro
+ * `output`.
+ *
+ * @param gpio Instancia de gpio_t que representa el pin.
+ * @param output Valor booleano que indica si el pin debe ser configurado como salida (true) o
+ * entrada (false).
+ */
+void gpioSetOutput(gpio_t gpio, bool output);
+
+/**
+ * @brief Establece el estado lógico de un pin GPIO configurado como salida.
+ *
+ * Esta función establece el estado lógico del pin (alto o bajo) si está configurado como salida.
+ *
+ * @param gpio Instancia de gpio_t que representa el pin.
+ * @param state Estado lógico del pin GPIO (true para alto, false para bajo).
+ */
+void gpioSetState(gpio_t gpio, bool state);
+
+/**
+ * @brief Obtiene el estado lógico de un pin GPIO configurado como entrada.
+ *
+ * Esta función lee el estado lógico del pin GPIO, si está configurado como entrada.
+ *
+ * @param gpio Instancia de gpio_t que representa el pin.
+ *
+ * @return El estado lógico del pin (true para alto, false para bajo).
+ */
+bool gpioGetState(gpio_t gpio);
 
 /* === End of documentation ==================================================================== */
 
@@ -59,4 +103,4 @@ int main(void);
 }
 #endif
 
-#endif /* MAIN_H */
+#endif /* GPIO_H */

@@ -18,28 +18,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
-
 /**
  * @file main.c
- * @brief Implementación principal del programa para controlar un LED utilizando GPIO.
+ * @brief Implementación de las funciones principales para la manipulación de pines GPIO.
  *
- * Este archivo contiene la función principal del sistema, en la cual se crea un objeto `gpio_t`
- * para controlar un LED rojo, configurando el pin correspondiente como salida y cambiando su
- * estado.
+ * Este archivo contiene las implementaciones de las funciones que permiten configurar,
+ * leer y escribir en los pines GPIO. Estas funciones interactúan con la capa de hardware
+ * para controlar los pines de entrada y salida.
  */
 
 /* === Headers files inclusions =============================================================== */
-
-#include "main.h"
-#include "gpio.h"
+#include "hal.h"
 
 /* === Macros definitions ====================================================================== */
-
-/** @brief Puerto en el que se encuentra el led rojo. */
-#define LED_RED_PORT 1
-
-/** @brief Pin de bit en el puerto donde está conectado el led rojo. */
-#define LED_RED_BIT 7
 
 /* === Private data type declarations ========================================================== */
 
@@ -56,22 +47,50 @@ SPDX-License-Identifier: MIT
 /* === Public function implementation ========================================================== */
 
 /**
- * @brief Función principal del programa.
+ * @brief Establece la dirección de un pin GPIO.
  *
- * Esta función se ejecuta al iniciar el sistema. En ella se crea un objeto `gpio_t` para el
- * control de un led rojo, se configura el pin correspondiente como salida y se ajusta su estado
- * para que esté apagado.
+ * Esta función configura la dirección de un pin GPIO, especificando si el pin debe ser una
+ * entrada o salida, dependiendo del valor del parámetro `direction`.
  *
- * - Se crea un objeto `gpio_t` para el led rojo en el puerto y bit especificados.
- * - Se configura el pin como salida.
- * - Se establece el estado del pin en bajo.
+ * @param port El puerto del pin GPIO.
+ * @param bit El bit del pin del puerto.
+ * @param direction Indica la dirección del pin.
  *
- * @return int Valor de retorno: 0 si todo se ejecuta correctamente.
+ * @note La implementación de esta función depende de la plataforma utilizada.
  */
-int main(void) {
-    gpio_t red_led = gpioCreate(LED_RED_PORT, LED_RED_BIT);
-    gpioSetOutput(red_led, true);
-    gpioSetState(red_led, false);
+void hal_gpio_set_direction(uint8_t port, uint8_t bit, bool direction) {
+}
+
+/**
+ * @brief Establece el estado de salida de un pin GPIO.
+ *
+ * Esta función configura el estado lógico de un pin GPIO configurado como salida. El pin
+ * se pondrá en estado alto (`true`) o bajo (`false`), dependiendo del valor del parámetro `state`.
+ *
+ * @param port El puerto del pin GPIO.
+ * @param bit El bit del pin dentro del puerto.
+ * @param state El estado lógico a establecer en el pin.
+ *
+ * @note La implementación de esta función depende de la plataforma utilizada.
+ */
+void hal_gpio_set_output(uint8_t port, uint8_t bit, bool state) {
+}
+
+/**
+ * @brief Obtiene el estado lógico de un pin GPIO configurado como entrada.
+ *
+ * Esta función lee el valor lógico de un pin que está configurado como entrada.
+ *
+ * @param port El puerto del pin GPIO.
+ * @param bit El bit del pin dentro del puerto.
+ *
+ * @return El estado lógico del pin GPIO.
+ *
+ * @note La implementación de esta función depende de la plataforma utilizada.
+ */
+bool hal_gpio_get_input(uint8_t port, uint8_t bit) {
+
+    return false;
 }
 
 /* === End of documentation ==================================================================== */
